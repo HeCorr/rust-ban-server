@@ -58,6 +58,19 @@ func main() {
 		return c.JSON(ban)
 	})
 
+	app.Post("/api/rustBans", func(c *fiber.Ctx) error {
+		var ban Ban
+		err := c.BodyParser(&ban)
+		if err != nil {
+			return c.Status(http.StatusUnprocessableEntity).JSON(fiber.Map{"error": err.Error()})
+		}
+		err = addBan(ban)
+		if err != nil {
+			return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+		}
+		return c.JSON(fiber.Map{"status": "created"})
+	})
+
 	log.Println("Listening on " + listenAddr)
 	log.Fatal(app.Listen(listenAddr))
 }
