@@ -34,6 +34,10 @@ func init() {
 func main() {
 	app := fiber.New(fiber.Config{DisableStartupMessage: true})
 
+	app.Get("/api/status", func(c *fiber.Ctx) error {
+		return c.JSON(fiber.Map{"status": "ok"})
+	})
+
 	app.Get("/api/rustBans/:steamID64", func(c *fiber.Ctx) error {
 		ban, err := getBan(c.Params("steamID64"))
 		if err != nil {
