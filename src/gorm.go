@@ -16,9 +16,9 @@ func getBan(sID string) (b Ban, _ error) {
 	return b, nil
 }
 
-func addBan(sID, reason string, expiry int64) error {
+func addBan(b Ban) error {
 	tx := db.Session(&gorm.Session{})
-	create := tx.Create(&Ban{SteamID: sID, Reason: reason, ExpiryDate: expiry})
+	create := tx.Create(&b)
 	if create.Error != nil {
 		return create.Error
 	}
