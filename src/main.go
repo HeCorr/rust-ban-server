@@ -23,6 +23,10 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	err = db.AutoMigrate(&Ban{})
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func main() {
