@@ -7,7 +7,7 @@ import (
 
 func getBan(sID string) (b Ban, _ error) {
 	tx := db.Session(&gorm.Session{})
-	find := tx.Where("steam_id = ?", sID).Find(&b)
+	find := tx.Select("steam_id", "reason", "expiry_date").Where("steam_id = ?", sID).Find(&b)
 	if find.Error != nil {
 		return b, find.Error
 	}
