@@ -3,6 +3,16 @@ Fully-featured ban server compliant with the new Rust (game) server's [Centraliz
 
 ---
 
+#### Usage
+
+1. Download the [latest release](https://github.com/HeCorr/rust-ban-server/releases) using a compatible binary for your system
+
+2. Execute it: `./rust-ban-server`.
+Available flags:
+    - `-l` API listen address (default: `:4000`)
+    - `-q` Quiet mode, omits HTTP log output.
+
+
 #### Available Endpoints
 
 - `GET /api/status` - For checking if the API is alive

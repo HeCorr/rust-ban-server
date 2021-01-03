@@ -5,7 +5,6 @@ import (
 	"flag"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -14,15 +13,12 @@ import (
 )
 
 var (
-	listenAddr = os.Getenv("LISTEN_ADDR")
+	listenAddr string
 	quiet      bool
 	db         *gorm.DB
 )
 
 func init() {
-	if listenAddr == "" {
-		log.Fatal("LISTEN_ADDR env var not defined.")
-	}
 	var err error
 	db, err = gorm.Open(sqlite.Open("rust-bans.db"), &gorm.Config{})
 	if err != nil {
@@ -33,6 +29,7 @@ func init() {
 		log.Fatal(err)
 	}
 	flag.BoolVar(&quiet, "q", false, "Quiet mode (don't print HTTP log)")
+	flag.StringVar(&listenAddr, "l", ":4000", "Listen address (default: ':4000')")
 	flag.Parse()
 }
 
