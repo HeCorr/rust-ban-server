@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/gofiber/fiber/v2"
@@ -10,13 +11,13 @@ import (
 )
 
 var (
-	listenPort = os.Getenv("LISTEN_PORT")
+	listenAddr = os.Getenv("LISTEN_ADDR")
 	db         *gorm.DB
 )
 
 func init() {
-	if listenPort == "" {
-		log.Fatal("LISTEN_PORT env var not defined.")
+	if listenAddr == "" {
+		log.Fatal("LISTEN_ADDR env var not defined.")
 	}
 	var err error
 	db, err = gorm.Open(sqlite.Open("rust-bans.db"), &gorm.Config{})
@@ -30,8 +31,8 @@ func init() {
 }
 
 func main() {
-	app := fiber.New()
+	app := fiber.New(fiber.Config{DisableStartupMessage: true})
 
-	log.Println("Listening on " + listenPort)
-	log.Fatal(app.Listen(":"))
+	log.Println("Listening on " + listenAddr)
+	log.Fatal(app.Listen(listenAddr))
 }
