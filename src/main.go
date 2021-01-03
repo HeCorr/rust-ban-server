@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"log"
 	"net/http"
 	"os"
@@ -32,6 +33,17 @@ func init() {
 
 func main() {
 	app := fiber.New(fiber.Config{DisableStartupMessage: true})
+
+	app.Get("/api/rustBans/:steamID64", func(c *fiber.Ctx) error {
+		ban, err := getBan(c.Params("steamID64"))
+		if err != nil {
+			if errors.Is(err, errNotFound) {
+				return c.SendStatus(http.StatusNotFound)
+			}
+			return c.Status(http.StatusInternalServerError).SendString(err.Error())
+		}
+		return c.JSON(ban)
+	})
 
 	log.Println("Listening on " + listenAddr)
 	log.Fatal(app.Listen(listenAddr))
