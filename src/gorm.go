@@ -2,6 +2,7 @@ package main
 
 import (
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 func getBan(sID string) (b Ban, _ error) {
@@ -18,7 +19,7 @@ func getBan(sID string) (b Ban, _ error) {
 
 func addBan(b Ban) error {
 	tx := db.Session(&gorm.Session{})
-	create := tx.Create(&b)
+	create := tx.Clauses(clause.OnConflict{DoNothing: true}).Create(&b)
 	if create.Error != nil {
 		return create.Error
 	}
