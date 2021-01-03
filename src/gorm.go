@@ -27,3 +27,16 @@ func addBan(sID, reason string, expiry int64) error {
 	}
 	return nil
 }
+
+func delBan(sID string) error {
+	var b Ban
+	tx := db.Session(&gorm.Session{})
+	delete := tx.Where("steam_id = ?", sID).Delete(&b)
+	if delete.Error != nil {
+		return delete.Error
+	}
+	if delete.RowsAffected == 0 {
+		return errNotDeleted
+	}
+	return nil
+}

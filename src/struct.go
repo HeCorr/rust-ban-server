@@ -9,6 +9,7 @@ import (
 var (
 	errNotFound    = errors.New("not found")
 	errNotInserted = errors.New("not inserted")
+	errNotDeleted  = errors.New("not deleted")
 )
 
 // Ban struct
