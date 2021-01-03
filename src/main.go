@@ -12,6 +12,8 @@ import (
 	"gorm.io/gorm"
 )
 
+const version string = "v1.0.0"
+
 var (
 	listenAddr string
 	quiet      bool
@@ -19,6 +21,7 @@ var (
 )
 
 func init() {
+	log.Println("Rust Ban Server " + version)
 	var err error
 	db, err = gorm.Open(sqlite.Open("rust-bans.db"), &gorm.Config{})
 	if err != nil {
