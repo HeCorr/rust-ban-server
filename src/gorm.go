@@ -31,7 +31,7 @@ func addBan(b Ban) error {
 func delBan(sID string) error {
 	var b Ban
 	tx := db.Session(&gorm.Session{})
-	delete := tx.Where("steam_id = ?", sID).Delete(&b)
+	delete := tx.Where("steam_id = ?", sID).Unscoped().Delete(&b)
 	if delete.Error != nil {
 		return delete.Error
 	}
