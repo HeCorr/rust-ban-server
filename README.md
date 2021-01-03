@@ -1,5 +1,5 @@
 # rust-ban-server
-Fully-featured ban server compliant with the new Rust (game) server's [Centralized Banning](https://wiki.facepunch.com/rust/centralized-banning) feature written in Go + GORM/SQLite for the database.
+Fully-featured ban server compliant with the new Rust (game) server's [Centralized Banning](https://wiki.facepunch.com/rust/centralized-banning) feature written in Go + GORM/SQLite.
 
 ---
 
