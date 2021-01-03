@@ -2,17 +2,20 @@ package main
 
 import (
 	"errors"
+	"flag"
 	"log"
 	"net/http"
 	"os"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
 var (
 	listenAddr = os.Getenv("LISTEN_ADDR")
+	quiet      bool
 	db         *gorm.DB
 )
 
@@ -29,10 +32,16 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	flag.BoolVar(&quiet, "q", false, "Quiet mode (don't print HTTP log)")
+	flag.Parse()
 }
 
 func main() {
 	app := fiber.New(fiber.Config{DisableStartupMessage: true})
+
+	if !quiet {
+		app.Use("/api", logger.New())
+	}
 
 	app.Get("/api/status", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{"status": "ok"})
