@@ -1,8 +1,6 @@
 package main
 
 import (
-	"errors"
-
 	"gorm.io/gorm"
 )
 
@@ -13,7 +11,7 @@ func getBan(sID string) (b Ban, _ error) {
 		return b, find.Error
 	}
 	if find.RowsAffected == 0 {
-		return b, errors.New("not found")
+		return b, errNotFound
 	}
 	return b, nil
 }
@@ -25,7 +23,7 @@ func addBan(sID, reason string, expiry int64) error {
 		return create.Error
 	}
 	if create.RowsAffected == 0 {
-		return errors.New("not inserted")
+		return errNotInserted
 	}
 	return nil
 }

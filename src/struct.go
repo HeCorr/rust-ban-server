@@ -1,6 +1,15 @@
 package main
 
-import "gorm.io/gorm"
+import (
+	"errors"
+
+	"gorm.io/gorm"
+)
+
+var (
+	errNotFound    = errors.New("not found")
+	errNotInserted = errors.New("not inserted")
+)
 
 // Ban struct
 type Ban struct {
