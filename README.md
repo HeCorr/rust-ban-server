@@ -32,7 +32,6 @@ Available flags:
 - `POST /api/rustBans` - For adding account bans
 - `DELETE /api/rustBans/<SteamID64>` - For removing account bans
 
-
 #### TODO
 - Secure the `POST` and `DELETE` endpoints with a token or access key;
 - HTTPS support;
@@ -40,6 +39,10 @@ Available flags:
 - Database importing and exporting;
 - Create endpoint that returns ban count;
 - Create endpoint that returns all bans (might wanna implement pagination tho);
+
+#### Extra
+
+- There's a [Postman](https://www.postman.com/product/api-client/) collection available for importing [here](https://raw.githubusercontent.com/HeCorr/rust-ban-server/main/rust-ban-server.postman_collection.json), which contains basic tests to validate the API's operation. (open the link and use Ctrl + S to save the file)
 
 #### Spec ([subject to change](https://youtu.be/YOEd19K9WZA?t=158))
 `GET /api/status` shall always return `{ "status": "ok" }` with status code `200`.
