@@ -28,6 +28,7 @@ Available flags:
 #### Available Endpoints
 
 - `GET /api/status` - For checking if the API is alive
+- `GET /api/rustBans/count` - For getting the registered ban count
 - `GET /api/rustBans/<SteamID64>` - For checking for banned SteamIDs (mostly used by the game server)
 - `POST /api/rustBans` - For adding account bans
 - `DELETE /api/rustBans/<SteamID64>` - For removing account bans
@@ -37,7 +38,6 @@ Available flags:
 - HTTPS support;
 - Include Go test files;
 - Database importing and exporting;
-- Create endpoint that returns ban count;
 - Create endpoint that returns all bans (might wanna implement pagination tho);
 
 #### Extra
@@ -46,6 +46,8 @@ Available flags:
 
 #### Spec ([subject to change](https://youtu.be/YOEd19K9WZA?t=158))
 `GET /api/status` shall always return `{ "status": "ok" }` with status code `200`.
+
+`GET /api/rustBans/count` returns the JSON-encoded ban count. In case of internal errors, the API returns `500` and the JSON-encoded error.
 
 `GET /api/rustBans/<SteamID64>` first validates the provided SteamID, returning the status code `400` and the JSON-encoded error message `Invalid SteamID64.` if it's not valid.
 Otherwise, it returns the JSON data as specified in the Rust wiki with status code `200` if the SteamID has been found.
