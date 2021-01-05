@@ -38,8 +38,9 @@ Available flags:
 - Secure the `POST` and `DELETE` endpoints with a token or access key;
 - Actually test the API on a local Rust server;
 - HTTPS support;
+- Include Go test files;
 - Database importing and exporting;
-- Check if the provided SteamID is valid (not as important as it sounds);
+- Create endpoint that returns ban count;
 - Create endpoint that returns all bans (might wanna implement pagination tho);
 
 #### Spec ([subject to change](https://youtu.be/YOEd19K9WZA?t=158))
