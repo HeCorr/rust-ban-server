@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "d6c80f7e-a8a9-463e-9968-2c016242937d",
-		"name": "Rust Ban Server v1.1.0",
+		"name": "Rust Ban Server API",
 		"description": "Tests for https://github.com/HeCorr/rust-ban-server.\r\n\r\nUsage:\r\n\r\nChange the variables URL and PORT in the Variables tab to the url and port of your server.\r\n\r\n(Note: change the values on the 'Current' column and click the 'Persist all' button)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
