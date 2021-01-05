@@ -13,7 +13,7 @@ import (
 	"gorm.io/gorm"
 )
 
-const version string = "v1.1.1"
+const version string = "v1.2.0"
 
 var (
 	listenAddr string
@@ -76,12 +76,12 @@ func main() {
 		if !sIDval.Match([]byte(ban.SteamID)) {
 			return c.Status(http.StatusBadRequest).JSON(fiber.Map{"error": "Invalid SteamID64."})
 		}
-		err = addBan(ban)
+		upd, err := addBan(ban)
 		if err != nil {
-			if errors.Is(err, errNotInserted) {
-				return c.Status(http.StatusConflict).JSON(fiber.Map{"error": "SteamID64 already banned."})
-			}
 			return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+		}
+		if upd {
+			return c.Status(http.StatusOK).JSON(fiber.Map{"status": "SteamID64 updated."})
 		}
 		return c.Status(http.StatusCreated).JSON(fiber.Map{"status": "SteamID64 banned."})
 	})

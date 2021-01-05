@@ -1,8 +1,9 @@
 package main
 
 import (
+	"errors"
+
 	"gorm.io/gorm"
-	"gorm.io/gorm/clause"
 )
 
 func getBan(sID string) (b Ban, _ error) {
@@ -17,16 +18,22 @@ func getBan(sID string) (b Ban, _ error) {
 	return b, nil
 }
 
-func addBan(b Ban) error {
+func addBan(b Ban) (upd bool, _ error) {
+	_, err := getBan(b.SteamID)
+	if err != nil && !errors.Is(err, errNotFound) {
+		return false, err
+	} else if err == nil {
+		return true, updateBan(b)
+	}
 	tx := db.Session(&gorm.Session{})
-	create := tx.Clauses(clause.OnConflict{DoNothing: true}).Create(&b)
+	create := tx.Create(&b)
 	if create.Error != nil {
-		return create.Error
+		return false, create.Error
 	}
 	if create.RowsAffected == 0 {
-		return errNotInserted
+		return false, errNotInserted
 	}
-	return nil
+	return false, nil
 }
 
 func delBan(sID string) error {
@@ -38,6 +45,18 @@ func delBan(sID string) error {
 	}
 	if delete.RowsAffected == 0 {
 		return errNotDeleted
+	}
+	return nil
+}
+
+func updateBan(b Ban) error {
+	tx := db.Session(&gorm.Session{})
+	update := tx.Model(&b).Where("steam_id = ?", b.SteamID).Updates(&b)
+	if update.Error != nil {
+		return update.Error
+	}
+	if update.RowsAffected == 0 {
+		return errNotUpdated
 	}
 	return nil
 }
