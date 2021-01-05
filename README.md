@@ -58,8 +58,8 @@ In case of internal errors, the API returns `500` and the JSON-encoded error.
 }
 ```
 The provided SteamID64 is also validated, returning the status code `400` and an error message if the validation fails.
-If the request was successful, the API returns the JSON-encoded message `SteamID64 banned.` with the status code `201`.
-If the SteamID already exists, the status code `209` is returned with the JSON-encoded error `SteamID64 already banned.`.
+It then checks if the ban already exists. If so, it gets updated and `SteamID64 updated.` is returned with status code `200`.
+Otherwise, the record is created and the API returns the JSON-encoded message `SteamID64 banned.` with the status code `201`.
 In case of internal errors, it returns `500` and the JSON-encoded error.
 
 `DELETE /api/rustBans/<steamID64>` also validates the provided SteamID64, returning the status code `400` and a JSON-encoded error if validation fails.
