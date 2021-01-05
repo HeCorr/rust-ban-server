@@ -13,7 +13,7 @@ import (
 	"gorm.io/gorm"
 )
 
-const version string = "v1.0.0"
+const version string = "v1.1.0"
 
 var (
 	listenAddr string
