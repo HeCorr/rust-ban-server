@@ -20,7 +20,7 @@ Available flags:
 <details>
 <summary>Building from source</summary>
 
-**WIP**
+- **WIP**
     
 </details>
 
