@@ -28,15 +28,13 @@ Available flags:
 #### Available Endpoints
 
 - `GET /api/status` - For checking if the API is alive
-- `GET /api/rustBans/<SteamID64>` - For checking for banned SteamIDs
-(mostly used by the game server)
+- `GET /api/rustBans/<SteamID64>` - For checking for banned SteamIDs (mostly used by the game server)
 - `POST /api/rustBans` - For adding account bans
 - `DELETE /api/rustBans/<SteamID64>` - For removing account bans
 
 
 #### TODO
 - Secure the `POST` and `DELETE` endpoints with a token or access key;
-- Actually test the API on a local Rust server;
 - HTTPS support;
 - Include Go test files;
 - Database importing and exporting;
