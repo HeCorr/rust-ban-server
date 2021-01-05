@@ -60,3 +60,12 @@ func updateBan(b Ban) error {
 	}
 	return nil
 }
+
+func countBans() (c int64, _ error) {
+	tx := db.Session(&gorm.Session{})
+	count := tx.Table("bans").Count(&c)
+	if count.Error != nil {
+		return 0, count.Error
+	}
+	return
+}
