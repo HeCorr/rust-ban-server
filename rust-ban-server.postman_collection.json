@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "d6c80f7e-a8a9-463e-9968-2c016242937d",
 		"name": "Rust Ban Server API",
-		"description": "Tests for https://github.com/HeCorr/rust-ban-server.\r\n\r\nUsage:\r\n\r\nChange the variables URL and PORT in the Variables tab to the url and port of your server.\r\n\r\n(Note: change the values on the 'Current' column and click the 'Persist all' button)",
+		"description": "Tests for https://github.com/HeCorr/rust-ban-server.\r\n\r\nUsage:\r\n\r\nChange the variables URL and PORT in the Variables tab to the url and port of your API.\r\n\r\n(Note: change the values on the 'Current' column and click the 'Persist all' button)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -52,7 +52,7 @@
 							"    pm.response.to.have.status(201);\r",
 							"});\r",
 							"pm.test(\"Response check\", function () {\r",
-							"    pm.expect(pm.response.json().status).to.eql(\"SteamID banned.\");\r",
+							"    pm.expect(pm.response.json().status).to.eql(\"SteamID64 banned.\");\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -80,6 +80,42 @@
 					"path": [
 						"api",
 						"rustBans"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get ban count",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Count check\", function () {\r",
+							"    pm.expect(pm.response.json().count).to.gt(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/api/rustBans/count",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"api",
+						"rustBans",
+						"count"
 					]
 				}
 			},
@@ -138,7 +174,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"pm.test(\"Response check\", function () {\r",
-							"    pm.expect(pm.response.json().status).to.eql(\"SteamID unbanned.\");\r",
+							"    pm.expect(pm.response.json().status).to.eql(\"SteamID64 unbanned.\");\r",
 							"});"
 						],
 						"type": "text/javascript"
