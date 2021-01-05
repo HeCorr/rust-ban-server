@@ -5,6 +5,7 @@ import (
 	"flag"
 	"log"
 	"net/http"
+	"regexp"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -18,6 +19,7 @@ var (
 	listenAddr string
 	quiet      bool
 	db         *gorm.DB
+	sIDval     *regexp.Regexp
 )
 
 func init() {
@@ -34,6 +36,10 @@ func init() {
 	flag.BoolVar(&quiet, "q", false, "Quiet mode (don't print HTTP log)")
 	flag.StringVar(&listenAddr, "l", ":4000", "Listen address (default: ':4000')")
 	flag.Parse()
+	sIDval, err = regexp.Compile(`^[0-9]{17}$`)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func main() {
@@ -48,6 +54,9 @@ func main() {
 	})
 
 	app.Get("/api/rustBans/:steamID64", func(c *fiber.Ctx) error {
+		if !sIDval.Match([]byte(c.Params("steamID64"))) {
+			return c.Status(http.StatusBadRequest).JSON(fiber.Map{"error": "Invalid SteamID."})
+		}
 		ban, err := getBan(c.Params("steamID64"))
 		if err != nil {
 			if errors.Is(err, errNotFound) {
@@ -64,6 +73,9 @@ func main() {
 		if err != nil {
 			return c.Status(http.StatusUnprocessableEntity).JSON(fiber.Map{"error": err.Error()})
 		}
+		if !sIDval.Match([]byte(ban.SteamID)) {
+			return c.Status(http.StatusBadRequest).JSON(fiber.Map{"error": "Invalid SteamID."})
+		}
 		err = addBan(ban)
 		if err != nil {
 			if errors.Is(err, errNotInserted) {
@@ -75,6 +87,9 @@ func main() {
 	})
 
 	app.Delete("/api/rustBans/:steamID64", func(c *fiber.Ctx) error {
+		if !sIDval.Match([]byte(c.Params("steamID64"))) {
+			return c.Status(http.StatusBadRequest).JSON(fiber.Map{"error": "Invalid SteamID."})
+		}
 		err := delBan(c.Params("steamID64"))
 		if err != nil {
 			if errors.Is(err, errNotDeleted) {
