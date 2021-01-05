@@ -13,7 +13,7 @@ import (
 	"gorm.io/gorm"
 )
 
-const version string = "v1.2.0"
+const version string = "v1.3.0"
 
 var (
 	listenAddr string
@@ -51,6 +51,14 @@ func main() {
 
 	app.Get("/api/status", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{"status": "ok"})
+	})
+
+	app.Get("/api/rustBans/count", func(c *fiber.Ctx) error {
+		count, err := countBans()
+		if err != nil {
+			return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+		}
+		return c.JSON(fiber.Map{"count": count})
 	})
 
 	app.Get("/api/rustBans/:steamID64", func(c *fiber.Ctx) error {
