@@ -55,12 +55,12 @@ func main() {
 
 	app.Get("/api/rustBans/:steamID64", func(c *fiber.Ctx) error {
 		if !sIDval.Match([]byte(c.Params("steamID64"))) {
-			return c.Status(http.StatusBadRequest).JSON(fiber.Map{"error": "Invalid SteamID."})
+			return c.Status(http.StatusBadRequest).JSON(fiber.Map{"error": "Invalid SteamID64."})
 		}
 		ban, err := getBan(c.Params("steamID64"))
 		if err != nil {
 			if errors.Is(err, errNotFound) {
-				return c.Status(http.StatusNotFound).JSON(fiber.Map{"error": "SteamID not found."})
+				return c.Status(http.StatusNotFound).JSON(fiber.Map{"error": "SteamID64 not found."})
 			}
 			return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 		}
@@ -74,30 +74,30 @@ func main() {
 			return c.Status(http.StatusUnprocessableEntity).JSON(fiber.Map{"error": err.Error()})
 		}
 		if !sIDval.Match([]byte(ban.SteamID)) {
-			return c.Status(http.StatusBadRequest).JSON(fiber.Map{"error": "Invalid SteamID."})
+			return c.Status(http.StatusBadRequest).JSON(fiber.Map{"error": "Invalid SteamID64."})
 		}
 		err = addBan(ban)
 		if err != nil {
 			if errors.Is(err, errNotInserted) {
-				return c.Status(http.StatusConflict).JSON(fiber.Map{"error": "SteamID already banned."})
+				return c.Status(http.StatusConflict).JSON(fiber.Map{"error": "SteamID64 already banned."})
 			}
 			return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 		}
-		return c.Status(http.StatusCreated).JSON(fiber.Map{"status": "SteamID banned."})
+		return c.Status(http.StatusCreated).JSON(fiber.Map{"status": "SteamID64 banned."})
 	})
 
 	app.Delete("/api/rustBans/:steamID64", func(c *fiber.Ctx) error {
 		if !sIDval.Match([]byte(c.Params("steamID64"))) {
-			return c.Status(http.StatusBadRequest).JSON(fiber.Map{"error": "Invalid SteamID."})
+			return c.Status(http.StatusBadRequest).JSON(fiber.Map{"error": "Invalid SteamID64."})
 		}
 		err := delBan(c.Params("steamID64"))
 		if err != nil {
 			if errors.Is(err, errNotDeleted) {
-				return c.Status(http.StatusNotFound).JSON(fiber.Map{"error": "SteamID not banned."})
+				return c.Status(http.StatusNotFound).JSON(fiber.Map{"error": "SteamID64 not banned."})
 			}
 			return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 		}
-		return c.JSON(fiber.Map{"status": "SteamID unbanned."})
+		return c.JSON(fiber.Map{"status": "SteamID64 unbanned."})
 	})
 
 	log.Println("Listening on " + listenAddr)
