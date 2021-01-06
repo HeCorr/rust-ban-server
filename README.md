@@ -38,6 +38,7 @@ Available flags:
 - HTTPS support;
 - Include Go test files;
 - Database importing and exporting;
+- Use limiter middleware just to be safe;
 - Create endpoint that returns all bans (might wanna implement pagination tho);
 
 #### Extra
