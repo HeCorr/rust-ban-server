@@ -34,6 +34,7 @@ Available flags:
 - `DELETE /api/rustBans/<SteamID64>` - For removing account bans
 
 #### TODO
+- Migrate to another database engine cuz fuck GORM and SQL;
 - Secure the `POST` and `DELETE` endpoints with a token or access key;
 - HTTPS support;
 - Include Go test files;
